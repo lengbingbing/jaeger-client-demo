@@ -1,270 +1,437 @@
-[![GoDoc][doc-img]][doc] [![Build Status][ci-img]][ci] [![Coverage Status][cov-img]][cov] [![OpenTracing 1.0 Enabled][ot-img]][ot-url]
 
-# Jaeger Bindings for Go OpenTracing API
+# 使用 Jaeger tracing 方案追踪 Go 服务
 
-Instrumentation library that implements an
-[OpenTracing](http://opentracing.io) Tracer for Jaeger (https://jaegertracing.io).
+* Jaeger 是由 Uber 开发的一套全链路追踪方案，符合 Opentracing 协议规范。
 
-**IMPORTANT**: The library's import path is based on its original location under `github.com/uber`. Do not try to import it as `github.com/jaegertracing`, it will not compile. We might revisit this in the next major release.
-  * :white_check_mark: `import "github.com/uber/jaeger-client-go"`
-  * :x: `import "github.com/jaegertracing/jaeger-client-go"`
+# Demo 包含三个服务，分别是 hello，service1，service2，三个服务的依赖关系如下图
 
-## How to Contribute
+## Synopsis  https://developer.qiniu.com/insight/manual/5092/tracingdemo-jaeger-go
 
-Please see [CONTRIBUTING.md](CONTRIBUTING.md).
+```` lua
+lua_package_path "/path/to/lua-resty-http/lib/?.lua;;";
 
-## Installation
+server {
 
-We recommended using a dependency manager like [glide](https://github.com/Masterminds/glide)
-and [semantic versioning](http://semver.org/) when including this library into an application.
-For example, Jaeger backend imports this library like this:
 
-```yaml
-- package: github.com/uber/jaeger-client-go
-  version: ^2.7.0
+  location /simpleinterface {
+    resolver 8.8.8.8;  # use Google's open DNS server for an example
+
+    content_by_lua_block {
+
+      -- For simple singleshot requests, use the URI interface.
+      local http = require "resty.http"
+      local httpc = http.new()
+      local res, err = httpc:request_uri("http://example.com/helloworld", {
+        method = "POST",
+        body = "a=1&b=2",
+        headers = {
+          ["Content-Type"] = "application/x-www-form-urlencoded",
+        },
+        keepalive_timeout = 60,
+        keepalive_pool = 10
+      })
+
+      if not res then
+        ngx.say("failed to request: ", err)
+        return
+      end
+
+      -- In this simple form, there is no manual connection step, so the body is read
+      -- all in one go, including any trailers, and the connection closed or keptalive
+      -- for you.
+
+      ngx.status = res.status
+
+      for k,v in pairs(res.headers) do
+          --
+      end
+
+      ngx.say(res.body)
+    }
+  }
+
+
+  location /genericinterface {
+    content_by_lua_block {
+
+      local http = require "resty.http"
+      local httpc = http.new()
+
+      -- The generic form gives us more control. We must connect manually.
+      httpc:set_timeout(500)
+      httpc:connect("127.0.0.1", 80)
+
+      -- And request using a path, rather than a full URI.
+      local res, err = httpc:request({
+          path = "/helloworld",
+          headers = {
+              ["Host"] = "example.com",
+          },
+      })
+
+      if not res then
+        ngx.say("failed to request: ", err)
+        return
+      end
+
+      -- Now we can use the body_reader iterator, to stream the body according to our desired chunk size.
+      local reader = res.body_reader
+
+      repeat
+        local chunk, err = reader(8192)
+        if err then
+          ngx.log(ngx.ERR, err)
+          break
+        end
+
+        if chunk then
+          -- process
+        end
+      until not chunk
+
+      local ok, err = httpc:set_keepalive()
+      if not ok then
+        ngx.say("failed to set keepalive: ", err)
+        return
+      end
+    }
+  }
+}
+````
+
+
+
+## new
+
+`syntax: httpc = http.new()`
+
+Creates the http object. In case of failures, returns `nil` and a string describing the error.
+
+## connect
+
+`syntax: ok, err = httpc:connect(host, port, options_table?)`
+
+`syntax: ok, err = httpc:connect("unix:/path/to/unix.sock", options_table?)`
+
+Attempts to connect to the web server.
+
+Before actually resolving the host name and connecting to the remote backend, this method will always look up the connection pool for matched idle connections created by previous calls of this method.
+
+An optional Lua table can be specified as the last argument to this method to specify various connect options:
+
+* `pool`
+: Specifies a custom name for the connection pool being used. If omitted, then the connection pool name will be generated from the string template `<host>:<port>` or `<unix-socket-path>`.
+
+## connect_proxy
+
+`syntax: ok, err = httpc:connect_proxy(proxy_uri, scheme, host, port, proxy_authorization)`
+
+Attempts to connect to the web server through the given proxy server. The method accepts the following arguments:
+
+* `proxy_uri` - Full URI of the proxy server to use (e.g. `http://proxy.example.com:3128/`). Note: Only `http` protocol is supported.
+* `scheme` - The protocol to use between the proxy server and the remote host (`http` or `https`). If `https` is specified as the scheme, `connect_proxy()` makes a `CONNECT` request to establish a TCP tunnel to the remote host through the proxy server.
+* `host` - The hostname of the remote host to connect to.
+* `port` - The port of the remote host to connect to.
+* `proxy_authorization` - The `Proxy-Authorization` header value sent to the proxy server via `CONNECT` when the `scheme` is `https`.
+
+If an error occurs during the connection attempt, this method returns `nil` with a string describing the error. If the connection was successfully established, the method returns `1`.
+
+There's a few key points to keep in mind when using this api:
+
+* If the scheme is `https`, you need to perform the TLS handshake with the remote server manually using the `ssl_handshake()` method before sending any requests through the proxy tunnel.
+* If the scheme is `http`, you need to ensure that the requests you send through the connections conforms to [RFC 7230](https://tools.ietf.org/html/rfc7230) and especially [Section 5.3.2.](https://tools.ietf.org/html/rfc7230#section-5.3.2) which states that the request target must be in absolute form. In practice, this means that when you use `send_request()`, the `path` must be an absolute URI to the resource (e.g. `http://example.com/index.html` instead of just `/index.html`).
+
+## set_timeout
+
+`syntax: httpc:set_timeout(time)`
+
+Sets the timeout (in ms) protection for subsequent operations, including the `connect` method.
+
+## set_timeouts
+
+`syntax: httpc:set_timeouts(connect_timeout, send_timeout, read_timeout)`
+
+Sets the connect timeout threshold, send timeout threshold, and read timeout threshold, respectively, in milliseconds, for subsequent socket operations (connect, send, receive, and iterators returned from receiveuntil).
+
+## ssl_handshake
+
+`syntax: session, err = httpc:ssl_handshake(session, host, verify)`
+
+Performs an SSL handshake on the TCP connection, only available in ngx_lua > v0.9.11
+
+See docs for [ngx.socket.tcp](https://github.com/openresty/lua-nginx-module#ngxsockettcp) for details.
+
+## set_keepalive
+
+`syntax: ok, err = httpc:set_keepalive(max_idle_timeout, pool_size)`
+
+Attempts to puts the current connection into the ngx_lua cosocket connection pool.
+
+You can specify the max idle timeout (in ms) when the connection is in the pool and the maximal size of the pool every nginx worker process.
+
+Only call this method in the place you would have called the `close` method instead. Calling this method will immediately turn the current http object into the `closed` state. Any subsequent operations other than `connect()` on the current object will return the `closed` error.
+
+Note that calling this instead of `close` is "safe" in that it will conditionally close depending on the type of request. Specifically, a `1.0` request without `Connection: Keep-Alive` will be closed, as will a `1.1` request with `Connection: Close`.
+
+In case of success, returns `1`. In case of errors, returns `nil, err`. In the case where the connection is conditionally closed as described above, returns `2` and the error string `connection must be closed`.
+
+## set_proxy_options
+
+`syntax: httpc:set_proxy_options(opts)`
+
+Configure an http proxy to be used with this client instance. The `opts` is a table that accepts the following fields:
+
+* `http_proxy` - an URI to a proxy server to be used with http requests
+* `http_proxy_authorization` - a default `Proxy-Authorization` header value to be used with `http_proxy`, e.g. `Basic ZGVtbzp0ZXN0`, which will be overriden if the `Proxy-Authorization` request header is present.
+* `https_proxy` - an URI to a proxy server to be used with https requests
+* `https_proxy_authorization` - as `http_proxy_authorization` but for use with `https_proxy`.
+* `no_proxy` - a comma separated list of hosts that should not be proxied.
+
+Note that proxy options are only applied when using the high-level `request_uri()` API.
+
+## get_reused_times
+
+`syntax: times, err = httpc:get_reused_times()`
+
+This method returns the (successfully) reused times for the current connection. In case of error, it returns `nil` and a string describing the error.
+
+If the current connection does not come from the built-in connection pool, then this method always returns `0`, that is, the connection has never been reused (yet). If the connection comes from the connection pool, then the return value is always non-zero. So this method can also be used to determine if the current connection comes from the pool.
+
+## close
+
+`syntax: ok, err = http:close()`
+
+Closes the current connection and returns the status.
+
+In case of success, returns `1`. In case of errors, returns `nil` with a string describing the error.
+
+
+# Requesting
+
+## request
+
+`syntax: res, err = httpc:request(params)`
+
+Returns a `res` table or `nil` and an error message.
+
+The `params` table accepts the following fields:
+
+* `version` The HTTP version number, currently supporting 1.0 or 1.1.
+* `method` The HTTP method string.
+* `path` The path string.
+* `query` The query string, presented as either a literal string or Lua table..
+* `headers` A table of request headers.
+* `body` The request body as a string, or an iterator function (see [get_client_body_reader](#get_client_body_reader)).
+* `ssl_verify` Verify SSL cert matches hostname
+
+When the request is successful, `res` will contain the following fields:
+
+* `status` The status code.
+* `reason` The status reason phrase.
+* `headers` A table of headers. Multiple headers with the same field name will be presented as a table of values.
+* `has_body` A boolean flag indicating if there is a body to be read.
+* `body_reader` An iterator function for reading the body in a streaming fashion.
+* `read_body` A method to read the entire body into a string.
+* `read_trailers` A method to merge any trailers underneath the headers, after reading the body.
+
+## request_uri
+
+`syntax: res, err = httpc:request_uri(uri, params)`
+
+The simple interface. Options supplied in the `params` table are the same as in the generic interface, and will override components found in the uri itself.
+
+There are 3 additional parameters for controlling keepalives:
+
+* `keepalive` Set to `false` to disable keepalives and immediately close the connection.
+* `keepalive_timeout` The maximal idle timeout (ms). Defaults to `lua_socket_keepalive_timeout`.
+* `keepalive_pool` The maximum number of connections in the pool. Defaults to `lua_socket_pool_size`.
+
+In this mode, there is no need to connect manually first. The connection is made on your behalf, suiting cases where you simply need to grab a URI without too much hassle.
+
+Additionally there is no ability to stream the response body in this mode. If the request is successful, `res` will contain the following fields:
+
+* `status` The status code.
+* `headers` A table of headers.
+* `body` The response body as a string.
+
+
+## request_pipeline
+
+`syntax: responses, err = httpc:request_pipeline(params)`
+
+This method works as per the [request](#request) method above, but `params` is instead a table of param tables. Each request is sent in order, and `responses` is returned as a table of response handles. For example:
+
+```lua
+local responses = httpc:request_pipeline{
+  {
+    path = "/b",
+  },
+  {
+    path = "/c",
+  },
+  {
+    path = "/d",
+  }
+}
+
+for i,r in ipairs(responses) do
+  if r.status then
+    ngx.say(r.status)
+    ngx.say(r:read_body())
+  end
+end
 ```
 
-If you instead want to use the latest version in `master`, you can pull it via `go get`.
-Note that during `go get` you may see build errors due to incompatible dependencies, which is why
-we recommend using semantic versions for dependencies.  The error  may be fixed by running
-`make install` (it will install `glide` if you don't have it):
+Due to the nature of pipelining, no responses are actually read until you attempt to use the response fields (status / headers etc). And since the responses are read off in order, you must read the entire body (and any trailers if you have them), before attempting to read the next response.
 
-```shell
-go get -u github.com/uber/jaeger-client-go/
-cd $GOPATH/src/github.com/uber/jaeger-client-go/
-git submodule update --init --recursive
-make install
+Note this doesn't preclude the use of the streaming response body reader. Responses can still be streamed, so long as the entire body is streamed before attempting to access the next response.
+
+Be sure to test at least one field (such as status) before trying to use the others, in case a socket read error has occurred.
+
+# Response
+
+## res.body_reader
+
+The `body_reader` iterator can be used to stream the response body in chunk sizes of your choosing, as follows:
+
+````lua
+local reader = res.body_reader
+
+repeat
+  local chunk, err = reader(8192)
+  if err then
+    ngx.log(ngx.ERR, err)
+    break
+  end
+
+  if chunk then
+    -- process
+  end
+until not chunk
+````
+
+If the reader is called with no arguments, the behaviour depends on the type of connection. If the response is encoded as chunked, then the iterator will return the chunks as they arrive. If not, it will simply return the entire body.
+
+Note that the size provided is actually a **maximum** size. So in the chunked transfer case, you may get chunks smaller than the size you ask, as a remainder of the actual HTTP chunks.
+
+## res:read_body
+
+`syntax: body, err = res:read_body()`
+
+Reads the entire body into a local string.
+
+
+## res:read_trailers
+
+`syntax: res:read_trailers()`
+
+This merges any trailers underneath the `res.headers` table itself. Must be called after reading the body.
+
+
+# Proxy
+
+There are two convenience methods for when one simply wishes to proxy the current request to the connected upstream, and safely send it downstream to the client, as a reverse proxy. A complete example:
+
+```lua
+local http = require "resty.http"
+local httpc = http.new()
+
+httpc:set_timeout(500)
+local ok, err = httpc:connect(HOST, PORT)
+
+if not ok then
+  ngx.log(ngx.ERR, err)
+  return
+end
+
+httpc:set_timeout(2000)
+httpc:proxy_response(httpc:proxy_request())
+httpc:set_keepalive()
 ```
 
-## Initialization
 
-See tracer initialization examples in [godoc](https://godoc.org/github.com/uber/jaeger-client-go/config#pkg-examples)
-and [config/example_test.go](./config/example_test.go).
+## proxy_request
 
-### Environment variables
+`syntax: local res, err = httpc:proxy_request(request_body_chunk_size?)`
 
-The tracer can be initialized with values coming from environment variables. None of the env vars are required
-and all of them can be overriden via direct setting of the property on the configuration object.
+Performs a request using the current client request arguments, effectively proxying to the connected upstream. The request body will be read in a streaming fashion, according to `request_body_chunk_size` (see [documentation on the client body reader](#get_client_body_reader) below).
 
-Property| Description
---- | ---
-JAEGER_SERVICE_NAME | The service name
-JAEGER_AGENT_HOST | The hostname for communicating with agent via UDP
-JAEGER_AGENT_PORT | The port for communicating with agent via UDP
-JAEGER_ENDPOINT | The HTTP endpoint for sending spans directly to a collector, i.e. http://jaeger-collector:14268/api/traces
-JAEGER_USER | Username to send as part of "Basic" authentication to the collector endpoint
-JAEGER_PASSWORD | Password to send as part of "Basic" authentication to the collector endpoint
-JAEGER_REPORTER_LOG_SPANS | Whether the reporter should also log the spans
-JAEGER_REPORTER_MAX_QUEUE_SIZE | The reporter's maximum queue size
-JAEGER_REPORTER_FLUSH_INTERVAL | The reporter's flush interval, with units, e.g. "500ms" or "2s" ([valid units][timeunits])
-JAEGER_SAMPLER_TYPE | The sampler type
-JAEGER_SAMPLER_PARAM | The sampler parameter (number)
-JAEGER_SAMPLER_MANAGER_HOST_PORT | The HTTP endpoint when using the remote sampler, i.e. http://jaeger-agent:5778/sampling
-JAEGER_SAMPLER_MAX_OPERATIONS | The maximum number of operations that the sampler will keep track of
-JAEGER_SAMPLER_REFRESH_INTERVAL | How often the remotely controlled sampler will poll jaeger-agent for the appropriate sampling strategy, with units, e.g. "1m" or "30s" ([valid units][timeunits])
-JAEGER_TAGS | A comma separated list of `name = value` tracer level tags, which get added to all reported spans. The value can also refer to an environment variable using the format `${envVarName:default}`, where the `:default` is optional, and identifies a value to be used if the environment variable cannot be found
-JAEGER_DISABLED | Whether the tracer is disabled or not. If true, the default `opentracing.NoopTracer` is used.
-JAEGER_RPC_METRICS | Whether to store RPC metrics
 
-By default, the client sends traces via UDP to the agent at `localhost:6831`. Use `JAEGER_AGENT_HOST` and
-`JAEGER_AGENT_PORT` to send UDP traces to a different `host:port`. If `JAEGER_ENDPOINT` is set, the client sends traces
-to the endpoint via `HTTP`, making the `JAEGER_AGENT_HOST` and `JAEGER_AGENT_PORT` unused. If `JAEGER_ENDPOINT` is
-secured, HTTP basic authentication can be performed by setting the `JAEGER_USER` and `JAEGER_PASSWORD` environment
-variables.
+## proxy_response
 
-### Closing the tracer via `io.Closer`
+`syntax: httpc:proxy_response(res, chunksize?)`
 
-The constructor function for Jaeger Tracer returns the tracer itself and an `io.Closer` instance.
-It is recommended to structure your `main()` so that it calls the `Close()` function on the closer
-before exiting, e.g.
+Sets the current response based on the given `res`. Ensures that hop-by-hop headers are not sent downstream, and will read the response according to `chunksize` (see [documentation on the body reader](#resbody_reader) above).
 
-```go
-tracer, closer, err := cfg.NewTracer(...)
-defer closer.Close()
+
+# Utility
+
+## parse_uri
+
+`syntax: local scheme, host, port, path, query? = unpack(httpc:parse_uri(uri, query_in_path?))`
+
+This is a convenience function allowing one to more easily use the generic interface, when the input data is a URI.
+
+As of version `0.10`, the optional `query_in_path` parameter was added, which specifies whether the querystring is to be included in the `path` return value, or separately as its own return value. This defaults to `true` in order to maintain backwards compatibility. When set to `false`, `path` will only include the path, and `query` will contain the URI args, not including the `?` delimiter.
+
+
+## get_client_body_reader
+
+`syntax: reader, err = httpc:get_client_body_reader(chunksize?, sock?)`
+
+Returns an iterator function which can be used to read the downstream client request body in a streaming fashion. You may also specify an optional default chunksize (default is `65536`), or an already established socket in
+place of the client request.
+
+Example:
+
+```lua
+local req_reader = httpc:get_client_body_reader()
+
+repeat
+  local chunk, err = req_reader(8192)
+  if err then
+    ngx.log(ngx.ERR, err)
+    break
+  end
+
+  if chunk then
+    -- process
+  end
+until not chunk
 ```
 
-This is especially useful for command-line tools that enable tracing, as well as
-for the long-running apps that support graceful shutdown. For example, if your deployment
-system sends SIGTERM instead of killing the process and you trap that signal to do a graceful
-exit, then having `defer closer.Closer()` ensures that all buffered spans are flushed.
+This iterator can also be used as the value for the body field in request params, allowing one to stream the request body into a proxied upstream request.
 
-### Metrics & Monitoring
+```lua
+local client_body_reader, err = httpc:get_client_body_reader()
 
-The tracer emits a number of different metrics, defined in
-[metrics.go](metrics.go). The monitoring backend is expected to support
-tag-based metric names, e.g. instead of `statsd`-style string names
-like `counters.my-service.jaeger.spans.started.sampled`, the metrics
-are defined by a short name and a collection of key/value tags, for
-example: `name:jaeger.traces, state:started, sampled:y`. See [metrics.go](./metrics.go)
-file for the full list and descriptions of emitted metrics.
-
-The monitoring backend is represented by the `metrics.Factory` interface from package
-[`"github.com/uber/jaeger-lib/metrics"`](https://github.com/jaegertracing/jaeger-lib/tree/master/metrics).  An implementation
-of that interface can be passed as an option to either the Configuration object or the Tracer
-constructor, for example:
-
-```go
-import (
-    "github.com/uber/jaeger-client-go/config"
-    "github.com/uber/jaeger-lib/metrics/prometheus"
-)
-
-    metricsFactory := prometheus.New()
-    tracer, closer, err := config.Configuration{
-        ServiceName: "your-service-name",
-    }.NewTracer(
-        config.Metrics(metricsFactory),
-    )
-```
-
-By default, a no-op `metrics.NullFactory` is used.
-
-### Logging
-
-The tracer can be configured with an optional logger, which will be
-used to log communication errors, or log spans if a logging reporter
-option is specified in the configuration. The logging API is abstracted
-by the [Logger](logger.go) interface. A logger instance implementing
-this interface can be set on the `Config` object before calling the
-`New` method.
-
-Besides the [zap](https://github.com/uber-go/zap) implementation
-bundled with this package there is also a [go-kit](https://github.com/go-kit/kit)
-one in the [jaeger-lib](https://github.com/jaegertracing/jaeger-lib) repository.
-
-## Instrumentation for Tracing
-
-Since this tracer is fully compliant with OpenTracing API 1.0,
-all code instrumentation should only use the API itself, as described
-in the [opentracing-go](https://github.com/opentracing/opentracing-go) documentation.
-
-## Features
-
-### Reporters
-
-A "reporter" is a component that receives the finished spans and reports
-them to somewhere. Under normal circumstances, the Tracer
-should use the default `RemoteReporter`, which sends the spans out of
-process via configurable "transport". For testing purposes, one can
-use an `InMemoryReporter` that accumulates spans in a buffer and
-allows to retrieve them for later verification. Also available are
-`NullReporter`, a no-op reporter that does nothing, a `LoggingReporter`
-which logs all finished spans using their `String()` method, and a
-`CompositeReporter` that can be used to combine more than one reporter
-into one, e.g. to attach a logging reporter to the main remote reporter.
-
-### Span Reporting Transports
-
-The remote reporter uses "transports" to actually send the spans out
-of process. Currently the supported transports include:
-  * [Jaeger Thrift](https://github.com/jaegertracing/jaeger-idl/blob/master/thrift/agent.thrift) over UDP or HTTP,
-  * [Zipkin Thrift](https://github.com/jaegertracing/jaeger-idl/blob/master/thrift/zipkincore.thrift) over HTTP.
-
-### Sampling
-
-The tracer does not record all spans, but only those that have the
-sampling bit set in the `flags`. When a new trace is started and a new
-unique ID is generated, a sampling decision is made whether this trace
-should be sampled. The sampling decision is propagated to all downstream
-calls via the `flags` field of the trace context. The following samplers
-are available:
-  1. `RemotelyControlledSampler` uses one of the other simpler samplers
-     and periodically updates it by polling an external server. This
-     allows dynamic control of the sampling strategies.
-  1. `ConstSampler` always makes the same sampling decision for all
-     trace IDs. it can be configured to either sample all traces, or
-     to sample none.
-  1. `ProbabilisticSampler` uses a fixed sampling rate as a probability
-     for a given trace to be sampled. The actual decision is made by
-     comparing the trace ID with a random number multiplied by the
-     sampling rate.
-  1. `RateLimitingSampler` can be used to allow only a certain fixed
-     number of traces to be sampled per second.
-
-### Baggage Injection
-
-The OpenTracing spec allows for [baggage][baggage], which are key value pairs that are added
-to the span context and propagated throughout the trace. An external process can inject baggage
-by setting the special HTTP Header `jaeger-baggage` on a request:
-
-```sh
-curl -H "jaeger-baggage: key1=value1, key2=value2" http://myhost.com
-```
-
-Baggage can also be programatically set inside your service:
-
-```go
-if span := opentracing.SpanFromContext(ctx); span != nil {
-    span.SetBaggageItem("key", "value")
+local res, err = httpc:request{
+   path = "/helloworld",
+   body = client_body_reader,
 }
 ```
 
-Another service downstream of that can retrieve the baggage in a similar way:
+If `sock` is specified,
 
-```go
-if span := opentracing.SpanFromContext(ctx); span != nil {
-    val := span.BaggageItem("key")
-    println(val)
-}
-```
+# Author
 
-### Debug Traces (Forced Sampling)
+James Hurst <james@pintsized.co.uk>
 
-#### Programmatically
-
-The OpenTracing API defines a `sampling.priority` standard tag that
-can be used to affect the sampling of a span and its children:
-
-```go
-import (
-    "github.com/opentracing/opentracing-go"
-    "github.com/opentracing/opentracing-go/ext"
-)
-
-span := opentracing.SpanFromContext(ctx)
-ext.SamplingPriority.Set(span, 1)
-```
-
-#### Via HTTP Headers
-
-Jaeger Tracer also understands a special HTTP Header `jaeger-debug-id`,
-which can be set in the incoming request, e.g.
-
-```sh
-curl -H "jaeger-debug-id: some-correlation-id" http://myhost.com
-```
-
-When Jaeger sees this header in the request that otherwise has no
-tracing context, it ensures that the new trace started for this
-request will be sampled in the "debug" mode (meaning it should survive
-all downsampling that might happen in the collection pipeline), and the
-root span will have a tag as if this statement was executed:
-
-```go
-span.SetTag("jaeger-debug-id", "some-correlation-id")
-```
-
-This allows using Jaeger UI to find the trace by this tag.
-
-### Zipkin HTTP B3 compatible header propagation
-
-Jaeger Tracer supports Zipkin B3 Propagation HTTP headers, which are used
-by a lot of Zipkin tracers. This means that you can use Jaeger in conjunction with e.g. [these OpenZipkin tracers](https://github.com/openzipkin).
-
-However it is not the default propagation format, see [here](zipkin/README.md#NewZipkinB3HTTPHeaderPropagator) how to set it up.
-
-## License
-
-[Apache 2.0 License](LICENSE).
+Originally started life based on https://github.com/bakins/lua-resty-http-simple. Cosocket docs and implementation borrowed from the other lua-resty-* cosocket modules.
 
 
-[doc-img]: https://godoc.org/github.com/uber/jaeger-client-go?status.svg
-[doc]: https://godoc.org/github.com/uber/jaeger-client-go
-[ci-img]: https://travis-ci.org/jaegertracing/jaeger-client-go.svg?branch=master
-[ci]: https://travis-ci.org/jaegertracing/jaeger-client-go
-[cov-img]: https://codecov.io/gh/jaegertracing/jaeger-client-go/branch/master/graph/badge.svg
-[cov]: https://codecov.io/gh/jaegertracing/jaeger-client-go
-[ot-img]: https://img.shields.io/badge/OpenTracing--1.0-enabled-blue.svg
-[ot-url]: http://opentracing.io
-[baggage]: https://github.com/opentracing/specification/blob/master/specification.md#set-a-baggage-item
-[timeunits]: https://golang.org/pkg/time/#ParseDuration
+# Licence
+
+This module is licensed under the 2-clause BSD license.
+
+Copyright (c) 2013-2016, James Hurst <james@pintsized.co.uk>
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
