@@ -95,21 +95,25 @@ type Configuration struct {
 	Tags []opentracing.Tag `yaml:"tags"`
 
     // 采样算法配置的配置
-	Sampler             *SamplerConfig             `yaml:"sampler"`
+    // Sampler.type = const （是否全量采集)  Sampler.Param = 1 全量采集   Sampler.Param = 0 不采集任何追踪信息
+    // Sampler.type = probabilistic （概率采集，默认万份之一)
+    // Sampler.type = rateLimiting （限速采集，每秒只能采集一定量的数据)
+    // Sampler.type = remote （一种动态采集策略，根据远程站点的配置采集策略)
+    Sampler             *SamplerConfig             `yaml:"sampler"`
+
     // 上报追踪信息到指定的服务器地址配置
+    // Reporter.LocalAgentHostPort    提交上报追踪信息的服务器地址信息
 	Reporter            *ReporterConfig            `yaml:"reporter"`
+
 	Headers             *jaeger.HeadersConfig      `yaml:"headers"`
+
 	BaggageRestrictions *BaggageRestrictionsConfig `yaml:"baggage_restrictions"`
+
 	Throttler           *ThrottlerConfig           `yaml:"throttler"`
 }
 ```
 
-### 采样算法配置的配置
+##  more example
 
-
-属性| 描述
---- | ---
-Sampler.type="const" 是否全量采集采样数据 |  Sampler.param = 0 （不采集)   Sampler.param = 1 全采集
-Sampler.type="const" 是否全量采集采样数据 |  Sampler.param = 0 （不采集)   Sampler.param = 1 全采集
-Sampler.type="const" 是否全量采集采样数据 |  Sampler.param = 0 （不采集)   Sampler.param = 1 全采集
-Sampler.type="const" 是否全量采集采样数据 |  Sampler.param = 0 （不采集)   Sampler.param = 1 全采集
+- [Sampler 配置实例]
+- [Reporter 配置实例]
