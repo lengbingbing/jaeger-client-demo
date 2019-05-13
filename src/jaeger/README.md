@@ -50,3 +50,6 @@ make install
 
 ## 3.目录结构如下图
 ![目录结构如下图](https://github.com/lengbingbing/jaeger-client-demo/blob/master/src/jaeger/pic/structure.png)
+进入 lib/config/init.go 初始化 Jaeger client，Init 方法是 Jaeger client 配置方法，所有的demo程序初始化 Jaeger client 时，均需要调用此方法。
+
+console 目录下是控制台 Go 的应用程序调用示例，服务启动命令 `go run main.go`
