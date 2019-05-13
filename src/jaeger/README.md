@@ -54,3 +54,13 @@ make install
 进入 lib/config/init.go 初始化 Jaeger client，Init 方法是 Jaeger client 配置方法，所有的demo程序初始化 Jaeger client 时，均需要调用此方法。
 
 console 目录下是控制台 Go 的应用程序调用示例，服务启动命令 > `go run main.go`
+
+http 目录下是Web 站点下 Go 的应用程序调用示例
+
+http/client/client.go 源码是对外提供服务可以发送站内短信的方法(sendMessage) Web站点服务，监听 10007 端口，对外接口 http://127.0.0.1:10007/sendMessage?userIds=1，
+服务启动命令 `go run main.go`
+
+http/user/userinfo.go 源码是调用用户接口查询用户基本信息的站点，提供 getUserById 方法根据用户Id获取用户信息的服务,监听 10008 端口，对外接口 http://127.0.0.1:10008/getUserById，
+服务启动命令 `go run main.go`
+
+
