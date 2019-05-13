@@ -20,3 +20,10 @@ tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
 # 配置 PATH 变量
 * export PATH=$PATH:/usr/local/go/bin
 ```
+
+### Windows 平台安装 Golang 方法
+
+[下载 Windows 平台的 Golang 安装包](https://golang.org/dl/)
+
+解压安装，并配置环境变量即可。
+
