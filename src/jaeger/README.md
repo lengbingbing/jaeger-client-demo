@@ -104,3 +104,23 @@ type Configuration struct {
 }
 ```
 
+### Sampler
+
+The tracer does not record all spans, but only those that have the
+sampling bit set in the `flags`. When a new trace is started and a new
+unique ID is generated, a sampling decision is made whether this trace
+should be sampled. The sampling decision is propagated to all downstream
+calls via the `flags` field of the trace context. The following samplers
+are available:
+  1. `RemotelyControlledSampler` uses one of the other simpler samplers
+     and periodically updates it by polling an external server. This
+     allows dynamic control of the sampling strategies.
+  1. `ConstSampler` always makes the same sampling decision for all
+     trace IDs. it can be configured to either sample all traces, or
+     to sample none.
+  1. `ProbabilisticSampler` uses a fixed sampling rate as a probability
+     for a given trace to be sampled. The actual decision is made by
+     comparing the trace ID with a random number multiplied by the
+     sampling rate.
+  1. `RateLimitingSampler` can be used to allow only a certain fixed
+     number of traces to be sampled per second.
