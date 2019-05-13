@@ -48,6 +48,48 @@ git submodule update --init --recursive
 make install
 ```
 
+##  快速开始
+
+### 1.初始化jeager-client 客户端并创建Trace 对象
+
+```go
+
+import (
+	"context"
+	"github.com/opentracing/opentracing-go"
+	"time"
+	"fmt"
+	"jaeger/lib/config"
+)
+
+	// 初始化配置
+	tracer, closer := config.Init("jaeger-console-demo")  //应用名称
+	defer closer.Close()
+
+
+```
+### 2.创建 span 实例对象和数据
+
+```go
+
+import (
+	"context"
+	"github.com/opentracing/opentracing-go"
+	"time"
+	"fmt"
+	"jaeger/lib/config"
+)
+
+	//// 创建 Span
+    span := tracer.StartSpan("myspan")
+    //// 设置 Tag
+    clientSpan.SetTag("mytag", "123")
+
+
+
+```
+
+
 ##  demo example
 
 - [console](https://github.com/lengbingbing/jaeger-client-demo/tree/master/src/jaeger/console)
@@ -74,7 +116,7 @@ http/user/userinfo.go 源码是调用用户接口查询用户基本信息的站�
 
 
 
-## Jaeger client 初始化
+## Jaeger client 初始化更多配置
 
 [lib/config/init.go](./lib/config/init.go).
 
