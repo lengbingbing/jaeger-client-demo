@@ -48,7 +48,15 @@ git submodule update --init --recursive
 make install
 ```
 
+##  demo example
+
+- [console](https://github.com/lengbingbing/jaeger-client-demo/tree/master/src/jaeger/console)
+- [http](https://github.com/lengbingbing/jaeger-client-demo/tree/master/src/jaeger/http)
+
+
 ## 3.目录结构如下图
+
+
 ![目录结构如下图](https://github.com/lengbingbing/jaeger-client-demo/blob/master/src/jaeger/pic/structure.png)
 
 进入 lib/config/init.go 初始化 Jaeger client，Init 方法是 Jaeger client 配置方法，所有的demo程序初始化 Jaeger client 时，均需要调用此方法。
@@ -64,14 +72,37 @@ http/user/userinfo.go 源码是调用用户接口查询用户基本信息的站�
 服务启动命令 `go run main.go`
 
 
+
+
 ## Jaeger client 初始化
 
 [lib/config/init.go](./lib/config/init.go).
 
-### Environment variables
+### 主要配置详解
+```
+type Configuration struct {
 
-The tracer can be initialized with values coming from environment variables. None of the env vars are required
-and all of them can be overriden via direct setting of the property on the configuration object.
+	//Jeager 的服务名称
+	ServiceName string `yaml:"serviceName"`
+
+	// Disabled can be provided via environment variable named JAEGER_DISABLED
+	Disabled bool `yaml:"disabled"`
+
+	// RPCMetrics can be provided via environment variable named JAEGER_RPC_METRICS
+	RPCMetrics bool `yaml:"rpc_metrics"`
+
+	// Tags can be provided via environment variable named JAEGER_TAGS
+	Tags []opentracing.Tag `yaml:"tags"`
+
+    // 采样信息的配置
+	Sampler             *SamplerConfig             `yaml:"sampler"`
+    // 上报追踪信息到指定的服务器地址配置
+	Reporter            *ReporterConfig            `yaml:"reporter"`
+	Headers             *jaeger.HeadersConfig      `yaml:"headers"`
+	BaggageRestrictions *BaggageRestrictionsConfig `yaml:"baggage_restrictions"`
+	Throttler           *ThrottlerConfig           `yaml:"throttler"`
+}
+```
 
 Property| Description
 --- | ---
