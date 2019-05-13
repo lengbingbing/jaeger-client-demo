@@ -47,3 +47,7 @@ cd $GOPATH/src/github.com/uber/jaeger-client-go/
 git submodule update --init --recursive
 make install
 ```
+
+## 3.目录结构如下图
+
+[![][https://github.com/lengbingbing/jaeger-client-demo/blob/master/src/jaeger/pic/structure.png]]
