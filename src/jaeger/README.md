@@ -49,5 +49,4 @@ make install
 ```
 
 ## 3.目录结构如下图
-
-[![][https://github.com/lengbingbing/jaeger-client-demo/blob/master/src/jaeger/pic/structure.png]]
+![目录结构如下图](https://github.com/lengbingbing/jaeger-client-demo/blob/master/src/jaeger/pic/structure.png)
