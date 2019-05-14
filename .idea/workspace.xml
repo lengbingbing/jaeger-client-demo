@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0546aed-0c67-4478-b75b-4b1ca3017de4" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/jaeger/reporter/test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jaeger/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,17 +21,53 @@
       <file leaf-file-name="config.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/config/config.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="458">
-              <caret line="76" column="21" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="21" />
+            <state relative-caret-position="245">
+              <caret line="103" column="51" selection-start-line="103" selection-start-column="36" selection-end-line="103" selection-end-column="51" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jaeger/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="485">
-              <caret line="326" lean-forward="true" selection-start-line="326" selection-end-line="326" />
+            <state relative-caret-position="590">
+              <caret line="330" column="43" selection-start-line="330" selection-start-column="39" selection-end-line="330" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/jaeger/reporter/test.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="52" column="26" lean-forward="true" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="panic.go" pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/go/src/runtime/panic.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="362">
+              <caret line="582" column="5" lean-forward="true" selection-start-line="582" selection-start-column="5" selection-end-line="582" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/probabilistic/test.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="36" column="22" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/const/test.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="19" column="7" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -49,8 +87,8 @@
       <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jaeger/console/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="583">
-              <caret line="44" column="10" lean-forward="true" selection-start-line="44" selection-start-column="10" selection-end-line="44" selection-end-column="10" />
+            <state relative-caret-position="403">
+              <caret line="32" column="69" lean-forward="true" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="69" />
               <folding>
                 <element signature="e#14#84#0" expanded="true" />
               </folding>
@@ -70,27 +108,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="client.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jaeger/http/client/client.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
-              <caret line="47" column="35" lean-forward="true" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="35" />
-              <folding>
-                <element signature="e#16#200#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="userinfo.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jaeger/http/user/userinfo.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="server.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/remoteServer/server.go">
           <provider selected="true" editor-type-id="text-editor">
@@ -98,30 +115,6 @@
               <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
               <folding>
                 <element signature="e#14#37#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/probabilistic/test.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
-              <caret line="33" column="24" lean-forward="true" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
-              <folding>
-                <element signature="e#14#219#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/rateLimiting/test.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="359">
-              <caret line="24" column="58" lean-forward="true" selection-end-line="54" />
-              <folding>
-                <element signature="e#14#215#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -160,6 +153,7 @@
         <option value="$PROJECT_DIR$/src/jaeger/smplers/remote/test.go" />
         <option value="$PROJECT_DIR$/src/jaeger/smplers/remoteServer/server.go" />
         <option value="$PROJECT_DIR$/src/jaeger/README.md" />
+        <option value="$PROJECT_DIR$/src/jaeger/reporter/test.go" />
       </list>
     </option>
   </component>
@@ -172,7 +166,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="x" value="1280" />
     <option name="y" value="23" />
     <option name="width" value="1920" />
@@ -207,15 +201,14 @@
               <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="console" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
               <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="reporter" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
@@ -271,7 +264,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build test.go (2)">
+  <component name="RunManager" selected="Go Build.go build test.go (3)">
     <configuration name="go build client.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="jaeger-client-demo" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -296,6 +289,14 @@
       <filePath value="$PROJECT_DIR$/src/jaeger/smplers/rateLimiting/test.go" />
       <directory value="$PROJECT_DIR$/" />
     </configuration>
+    <configuration name="go build test.go (3)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="jaeger-client-demo" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/src/jaeger/reporter/test.go" />
+      <directory value="$PROJECT_DIR$/" />
+    </configuration>
     <configuration name="go build test.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="jaeger-client-demo" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -304,33 +305,25 @@
       <filePath value="$PROJECT_DIR$/src/jaeger/smplers/test.go" />
       <directory value="$PROJECT_DIR$/" />
     </configuration>
-    <configuration name="go build userinfo.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="jaeger-client-demo" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <go_parameters value="-i" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/src/jaeger/http/user/userinfo.go" />
-      <directory value="$PROJECT_DIR$/" />
-    </configuration>
     <list>
-      <item itemvalue="Go Build.go build userinfo.go" />
       <item itemvalue="Go Build.go build client.go" />
       <item itemvalue="Go Build.go build test.go" />
       <item itemvalue="Go Build.go build test.go (1)" />
       <item itemvalue="Go Build.go build test.go (2)" />
+      <item itemvalue="Go Build.go build test.go (3)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build test.go (3)" />
         <item itemvalue="Go Build.go build test.go (2)" />
         <item itemvalue="Go Build.go build test.go (1)" />
         <item itemvalue="Go Build.go build test.go" />
         <item itemvalue="Go Build.go build client.go" />
-        <item itemvalue="Go Build.go build userinfo.go" />
       </list>
     </recent_temporary>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="23" width="1920" height="1009" extended-state="6" />
+    <frame x="1280" y="23" width="1920" height="1009" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17447917" />
@@ -486,33 +479,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/go/src/runtime/panic.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="591" column="12" lean-forward="true" selection-start-line="591" selection-start-column="12" selection-end-line="591" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/const/test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="39" column="48" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
-          <folding>
-            <element signature="e#14#112#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/probabilistic/test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="33" column="24" lean-forward="true" selection-start-line="33" selection-start-column="24" selection-end-line="33" selection-end-column="24" />
-          <folding>
-            <element signature="e#14#219#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/rateLimiting/test.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="359">
@@ -540,29 +506,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/config/config.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="76" column="21" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/remoteServer/server.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
           <folding>
             <element signature="e#14#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jaeger/console/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="583">
-          <caret line="44" column="10" lean-forward="true" selection-start-line="44" selection-start-column="10" selection-end-line="44" selection-end-column="10" />
-          <folding>
-            <element signature="e#14#84#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -589,8 +538,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="485">
-          <caret line="326" lean-forward="true" selection-start-line="326" selection-end-line="326" />
+        <state relative-caret-position="590">
+          <caret line="330" column="43" selection-start-line="330" selection-start-column="39" selection-end-line="330" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/probabilistic/test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="36" column="22" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/go/src/runtime/panic.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="582" column="5" lean-forward="true" selection-start-line="582" selection-start-column="5" selection-end-line="582" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jaeger/smplers/const/test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="19" column="7" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jaeger/console/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="32" column="69" lean-forward="true" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="69" />
+          <folding>
+            <element signature="e#14#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/config/config.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="103" column="51" selection-start-line="103" selection-start-column="36" selection-end-line="103" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jaeger/reporter/test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="52" column="26" lean-forward="true" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
         </state>
       </provider>
     </entry>

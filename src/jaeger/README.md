@@ -326,12 +326,8 @@ type Configuration struct {
 
 
 
-##   Sampler配置Demo
+##   Reporter配置Demo
 
-- [const 全量采集实例](./lib/config/const/test.go)
-- [probabilistic 概率采集实例](./smplers/probabilistic/test.go)
-- [rateLimiting 限速采集实例](./smplers/rateLimiting/test.go)
-- [remote 动态采集策略实例]
+- [Reporter配置实例](./lib/config/reporter/test.go)
 
 
-##  Reporter配置Demo
