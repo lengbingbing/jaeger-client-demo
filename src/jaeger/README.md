@@ -155,7 +155,11 @@ type Configuration struct {
 }
 ```
 
-##  more example
+##  采样算法配置的配置
 
-- [Sampler 配置实例]
-- [Reporter 配置实例]
+- [const 全量采集实例](./lib/config/const/test.go)
+- [probabilistic 概率采集实例](./smplers/probabilistic/test.go)
+- [rateLimiting 限速采集实例](./smplers/rateLimiting/test.go)
+- [remote 动态采集策略实例]
+
+

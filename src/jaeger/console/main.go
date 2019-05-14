@@ -40,7 +40,7 @@ func getPublicById(id string, ctx context.Context) (reply string){
 	println(id)
 	//2.模拟处理耗时
 	time.Sleep(time.Second/2)
-	//3.返回reply
+	//3.返回
 	reply = "未找到信息"
 	return
 }
