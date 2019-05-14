@@ -325,13 +325,6 @@ type Configuration struct {
 - [remote 动态采集策略实例]
 
 
-rsConfig      `yaml:"headers"`
-
-	BaggageRestrictions *BaggageRestrictionsConfig `yaml:"baggage_restrictions"`
-
-	Throttler           *ThrottlerConfig           `yaml:"throttler"`
-}
-```
 
 ##   Sampler配置Demo
 
