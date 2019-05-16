@@ -40,8 +40,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/jaeger/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="250" column="11" selection-start-line="250" selection-start-column="11" selection-end-line="250" selection-end-column="11" />
+            <state relative-caret-position="481">
+              <caret line="336" lean-forward="true" selection-start-line="336" selection-end-line="336" />
             </state>
           </provider>
         </entry>
@@ -193,6 +193,21 @@
               <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="jaeger" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
+              <item name="baggage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
+              <item name="baggage" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -609,8 +624,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="250" column="11" selection-start-line="250" selection-start-column="11" selection-end-line="250" selection-end-column="11" />
+        <state relative-caret-position="481">
+          <caret line="336" lean-forward="true" selection-start-line="336" selection-end-line="336" />
         </state>
       </provider>
     </entry>
