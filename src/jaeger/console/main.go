@@ -34,6 +34,7 @@ func getPublicById(id string, ctx context.Context) (reply string){
 	defer func() {
 		//模拟调用数据库查询
 		span.SetTag("sql","select * from public where id = 100")
+		span.SetBaggageItem("test","123")
 		span.Finish()
 
 	}()

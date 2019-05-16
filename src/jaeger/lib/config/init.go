@@ -17,7 +17,10 @@ func Init(service string) (opentracing.Tracer, io.Closer) {
 			Param: 1,
 		},
 		Reporter: &config.ReporterConfig{
-			CollectorEndpoint: "http://127.0.0.1:14268/api/traces",
+			//UDP 方式提交数据
+			LocalAgentHostPort:"127.0.0.1:6831",
+			//Http 方式上报数据
+			//CollectorEndpoint: "http://127.0.0.1:14268/api/traces",
 			LogSpans: true,
 		},
 	}

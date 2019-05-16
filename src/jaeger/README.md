@@ -334,3 +334,8 @@ type Configuration struct {
 ##   Headers配置Demo
 
 - [初始化配置，添加自定义Header快速查看Debug日志](./lib/config/headers/test.go)
+
+
+##   baggage 随行数据 安全配置
+
+- [初始化BaggageRestrictions配置]
