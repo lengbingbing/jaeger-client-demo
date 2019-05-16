@@ -9,7 +9,6 @@ import (
 	"github.com/uber/jaeger-client-go/config"
 	"net/http"
 	"github.com/opentracing/opentracing-go/ext"
-	"context"
 )
 
 func main() {
@@ -23,14 +22,10 @@ func main() {
 	http.HandleFunc("/reporter", func(w http.ResponseWriter, r *http.Request) {
 		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
 		span := tracer.StartSpan("reporter", ext.RPCServerOption(spanCtx))
-		ctx := opentracing.ContextWithSpan(context.Background(), span)
-
 
 
 		defer span.Finish()
 
-		span_1, _ := opentracing.StartSpanFromContext(ctx, "getPublicById")
-		defer span_1.Finish()
 
 		w.Write([]byte("reporter 上报追踪信息配置"))
 	})
@@ -51,6 +46,7 @@ func Init(service string) (opentracing.Tracer, io.Closer) {
 		TraceBaggageHeaderPrefix: "custom-tracer-baggage-header-prefix",
 	}
 
+	customHeaders.ApplyDefaults()
 
 	cfg := &config.Configuration{
 		Sampler: &config.SamplerConfig{
