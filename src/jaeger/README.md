@@ -319,7 +319,7 @@ type Configuration struct {
 
 ##  Sampler 采样算法配置的配置
 
-- [const 全量采集实例](./lib/config/const/test.go)
+- [const 全量采集实例](./smplers/test.go)
 - [probabilistic 概率采集实例](./smplers/probabilistic/test.go)
 - [rateLimiting 限速采集实例](./smplers/rateLimiting/test.go)
 - [remote 动态采集策略实例]
@@ -328,12 +328,12 @@ type Configuration struct {
 
 ##   Reporter配置Demo
 
-- [Reporter配置实例](./lib/config/reporter/test.go)
+- [Reporter配置实例](./reporter/test.go)
 
 
 ##   Headers配置Demo
 
-- [初始化配置，添加自定义Header快速查看Debug日志](./lib/config/headers/test.go)
+- [初始化配置，添加自定义Header快速查看Debug日志](./headers/test.go)
 
 
 ##   baggage 随行数据,根据远程服务器进行安全验证
