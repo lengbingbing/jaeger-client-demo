@@ -248,7 +248,7 @@ import (
 ## 3.目录结构如下图
 
 
-![目录结构如下图](https://github.com/lengbingbing/jaeger-client-demo/blob/master/src/jaeger/pic/structure.png)
+![目录结构如下图](pic/structure.png)
 
 进入 lib/config/init.go 初始化 Jaeger client，Init 方法是 Jaeger client 配置方法，所有的demo程序初始化 Jaeger client 时，均需要调用此方法。
 

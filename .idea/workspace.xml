@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f0546aed-0c67-4478-b75b-4b1ca3017de4" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/src/jaeger/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/console/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/console/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/lib/config/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/lib/config/init.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,8 +40,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/jaeger/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="336" lean-forward="true" selection-start-line="336" selection-end-line="336" />
+            <state relative-caret-position="203">
+              <caret line="250" column="11" selection-start-line="250" selection-start-column="11" selection-end-line="250" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -195,66 +193,6 @@
               <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-              <item name="baggage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-              <item name="baggage" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-              <item name="baggage" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-              <item name="console" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-              <item name="http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-              <item name="http" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-              <item name="http" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
-              <item name="reporter" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -671,8 +609,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="336" lean-forward="true" selection-start-line="336" selection-end-line="336" />
+        <state relative-caret-position="203">
+          <caret line="250" column="11" selection-start-line="250" selection-start-column="11" selection-end-line="250" selection-end-column="11" />
         </state>
       </provider>
     </entry>
