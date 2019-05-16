@@ -42,6 +42,16 @@ func main() {
 // ReporterConfig
 
 func Init(service string) (opentracing.Tracer, io.Closer) {
+
+
+	customHeaders := &jaeger.HeadersConfig{
+		JaegerDebugHeader:        "custom-jaeger-debug-header",
+		JaegerBaggageHeader:      "custom-jaeger-baggage-header",
+		TraceContextHeaderName:   "custom-tracer-state-header-name",
+		TraceBaggageHeaderPrefix: "custom-tracer-baggage-header-prefix",
+	}
+
+
 	cfg := &config.Configuration{
 		Sampler: &config.SamplerConfig{
 			Type:  "const",
@@ -50,7 +60,7 @@ func Init(service string) (opentracing.Tracer, io.Closer) {
 		Reporter: &config.ReporterConfig{
 
 			//在内存队列中保存的span个数，超过阈值保存到后端存储
-			QueueSize : 5,
+			QueueSize : 1,
 			//上报服务器地址
 			LocalAgentHostPort:"127.0.0.1:6831",
 			//是否开启 LoggingReporter
@@ -60,6 +70,8 @@ func Init(service string) (opentracing.Tracer, io.Closer) {
 			Password:"",
 
 		},
+		Headers: customHeaders,
+
 	}
 	tracer, closer, err := cfg.New(service, config.Logger(jaeger.StdLogger))
 	if err != nil {
