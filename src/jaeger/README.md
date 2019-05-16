@@ -331,3 +331,6 @@ type Configuration struct {
 - [Reporter配置实例](./lib/config/reporter/test.go)
 
 
+##   Headers配置Demo
+
+- [初始化配置，添加自定义Header快速查看Debug日志](./lib/config/headers/test.go)
