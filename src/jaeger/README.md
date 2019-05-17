@@ -317,7 +317,7 @@ type Configuration struct {
 }
 ```
 
-##  Sampler 采样算法配置的配置
+##  Sampler 采样算法配置的配置Demo
 
 - [const 全量采集实例](./smplers/test.go)
 - [probabilistic 概率采集实例](./smplers/probabilistic/test.go)
@@ -336,6 +336,6 @@ type Configuration struct {
 - [初始化配置，添加自定义Header快速查看Debug日志](./headers/test.go)
 
 
-##   baggage 随行数据，指定Key、Value的字符长度限制
+##   baggage 随行数据，指定Key、Value的字符长度限制Demo
 
 - [BaggageRestrictions配置实例](./baggage/server/test.go)
