@@ -336,6 +336,6 @@ type Configuration struct {
 - [初始化配置，添加自定义Header快速查看Debug日志](./headers/test.go)
 
 
-##   baggage 随行数据,根据远程服务器进行安全验证
+##   baggage 随行数据，指定Key、Value的字符长度限制
 
-- [初始化BaggageRestrictions配置](./baggage/server/test.go)
+- [BaggageRestrictions配置实例](./baggage/server/test.go)

@@ -22,7 +22,7 @@ func main() {
 	http.HandleFunc("/client", func(w http.ResponseWriter, r *http.Request) {
 		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
 		span := tracer.StartSpan("client", ext.RPCServerOption(spanCtx))
-		span.SetBaggageItem("baggagerKey","test")
+		span.SetBaggageItem("test","123456")
 
 		defer span.Finish()
 
