@@ -93,14 +93,13 @@ func NewInMemoryReporter() *InMemoryReporter {
 // Report implements Report() method of Reporter by storing the span in the buffer.
 func (r *InMemoryReporter) Report(span *Span) {
 	r.lock.Lock()
-	// Need to retain the span otherwise it will be released
-	r.spans = append(r.spans, span.Retain())
+	r.spans = append(r.spans, span)
 	r.lock.Unlock()
 }
 
-// Close implements Close() method of Reporter
+// Close implements Close() method of Reporter by doing nothing.
 func (r *InMemoryReporter) Close() {
-	r.Reset()
+	// no-op
 }
 
 // SpansSubmitted returns the number of spans accumulated in the buffer.
@@ -123,12 +122,7 @@ func (r *InMemoryReporter) GetSpans() []opentracing.Span {
 func (r *InMemoryReporter) Reset() {
 	r.lock.Lock()
 	defer r.lock.Unlock()
-
-	// Before reset the collection need to release Span memory
-	for _, span := range r.spans {
-		span.(*Span).Release()
-	}
-	r.spans = r.spans[:0]
+	r.spans = nil
 }
 
 // ------------------------------
@@ -224,8 +218,7 @@ func NewRemoteReporter(sender Transport, opts ...ReporterOption) Reporter {
 // because some of them may still be successfully added to the queue.
 func (r *remoteReporter) Report(span *Span) {
 	select {
-	// Need to retain the span otherwise it will be released
-	case r.queue <- reporterQueueItem{itemType: reporterQueueItemSpan, span: span.Retain()}:
+	case r.queue <- reporterQueueItem{itemType: reporterQueueItemSpan, span: span}:
 		atomic.AddInt64(&r.queueLength, 1)
 	default:
 		r.metrics.ReporterDropped.Inc(1)
@@ -285,7 +278,6 @@ func (r *remoteReporter) processQueue() {
 					// to reduce the number of gauge stats, we only emit queue length on flush
 					r.metrics.ReporterQueueLength.Update(atomic.LoadInt64(&r.queueLength))
 				}
-				span.Release()
 			case reporterQueueItemClose:
 				timer.Stop()
 				flush()

@@ -199,7 +199,7 @@ make install
 
 ##  快速开始
 
-### 1.初始化jeager-client 客户端并创建Trace 对象
+### 一、常用Gin框架快速接入到全链路跟踪
 
 ```go
 
@@ -221,25 +221,51 @@ import (
 
 ```go
 
+package main
+
 import (
-	"context"
-	"github.com/opentracing/opentracing-go"
-	"time"
-	"fmt"
+	"net/http"
+	"io/ioutil"
+	"github.com/gin-gonic/gin"
 	"jaeger/lib/config"
+	"github.com/opentracing/opentracing-go"
+	"jaeger/gin/ginhttp"
 )
 
-	//// 创建 Span
-    span := tracer.StartSpan("myspan")
-    //// 设置 Tag
-    clientSpan.SetTag("mytag", "123")
+func main() {
+	//初始化Jaeger
+	tracer, closer := config.Init("jaeger-gin-http")
+	defer closer.Close()
+	opentracing.SetGlobalTracer(tracer)
+	router := gin.Default()
+	//使用Jaeger中间件
+	router.Use(ginhttp.Middleware(tracer))
+	{
+		//simple tracer
+		router.GET("/tracer", func(c *gin.Context) {
+			tracer.StartSpan("tracer")
+			//获取Span
+			span := opentracing.SpanFromContext(c.Request.Context())
+			for k, v := range c.Request.Header {
+				//写入http--header里的数据
+				span.SetTag(k, v)
+
+			}
+			c.String(http.StatusOK, "Hello World")
+		})
+
+
+	}
+	//绑定站点端口
+	router.Run(":8000")
+}
 
 
 
 ```
-
-
 ##  demo example
+[Gin接入Demo](gin/main.go)
+
 
 - [console](https://github.com/lengbingbing/jaeger-client-demo/tree/master/src/jaeger/console)
 - [http](https://github.com/lengbingbing/jaeger-client-demo/tree/master/src/jaeger/http)

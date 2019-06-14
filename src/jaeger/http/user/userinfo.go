@@ -28,3 +28,13 @@ func main() {
 
 
 }
+
+
+
+//"调用其他平台的API接口"
+//with tracing.tracer.start_span('test gettest', child_of=span) as scope:
+//url = 'http://simu.openapi.autohome.com.cn/flowcontrol/test/gettest'
+//scope.set_tag('http.url', url)
+//scope.set_operation_name('flowcontrol/gettest')
+//r = requests.get(url)
+//scope.set_tag('http.code', r.status_code)
