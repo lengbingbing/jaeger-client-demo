@@ -45,7 +45,7 @@ go get -u github.com/uber/jaeger-client-go/
 cd $GOPATH/src/github.com/uber/jaeger-client-go/
 git submodule update --init --recursive
 make install
-
+```
 
 ##  快速开始
 
