@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0546aed-0c67-4478-b75b-4b1ca3017de4" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/jaeger/pic/intro.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jaeger/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/console/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/console/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/http/user/userinfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/http/user/userinfo.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,8 +33,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/jaeger/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="383" column="64" lean-forward="true" selection-start-line="383" selection-start-column="64" selection-end-line="383" selection-end-column="64" />
+            <state relative-caret-position="356">
+              <caret line="43" column="33" lean-forward="true" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -256,6 +255,13 @@
               <item name="jaeger" type="462c0819:PsiDirectoryNode" />
               <item name="http" type="462c0819:PsiDirectoryNode" />
               <item name="user" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
+              <item name="pic" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -701,8 +707,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="383" column="64" lean-forward="true" selection-start-line="383" selection-start-column="64" selection-end-line="383" selection-end-column="64" />
+        <state relative-caret-position="356">
+          <caret line="43" column="33" lean-forward="true" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
         </state>
       </provider>
     </entry>

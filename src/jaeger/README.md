@@ -48,7 +48,7 @@ make install
 ```
 
 ##  快速开始
-
+![简介](pic/intro.jpg)
 ### 一、常用Gin框架快速接入到全链路跟踪
 
 
