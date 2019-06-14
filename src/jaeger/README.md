@@ -201,23 +201,6 @@ make install
 
 ### 一、常用Gin框架快速接入到全链路跟踪
 
-```go
-
-import (
-	"context"
-	"github.com/opentracing/opentracing-go"
-	"time"
-	"fmt"
-	"jaeger/lib/config"
-)
-
-	// 初始化配置
-	tracer, closer := config.Init("jaeger-console-demo")  //应用名称
-	defer closer.Close()
-
-
-```
-### 2.创建 span 实例对象和数据
 
 ```go
 
@@ -264,29 +247,161 @@ func main() {
 
 ```
 ##  demo example
-[Gin接入Demo](gin/main.go)
+[Gin接入完整Demo](gin/main.go)
+
+### 二、Http请求调用
+
+```go
+package main
+
+import (
+	"github.com/opentracing/opentracing-go/ext"
+	"github.com/opentracing/opentracing-go"
+	"net/http"
+	"io/ioutil"
+	"github.com/opentracing/opentracing-go/log"
+	"fmt"
+	"context"
+	"jaeger/lib/config"
+)
+
+func main() {
+	tracer, closer := config.Init("jaeger-http-client")
+	defer closer.Close()
+	opentracing.SetGlobalTracer(tracer)
 
 
-- [console](https://github.com/lengbingbing/jaeger-client-demo/tree/master/src/jaeger/console)
-- [http](https://github.com/lengbingbing/jaeger-client-demo/tree/master/src/jaeger/http)
+	//发送站内短信接口
+	http.HandleFunc("/sendMessage", func(w http.ResponseWriter, r *http.Request) {
+		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
+		span := tracer.StartSpan("sendMessage", ext.RPCServerOption(spanCtx))
+
+		userIds, ok := r.URL.Query()["userIds"]
+		var  verify  bool  = true
+		var  result  string
+		if !ok || len(userIds) < 1 {
+
+			span.LogFields(
+				log.String("Param", "Url Param 'key' is missing"),
+
+			)
+			result = "Url Param 'key' is missing"
+			verify = false
+
+		}
+		//验证参数是否正确
+		if verify{
+
+			span.SetTag("userIds", userIds)
+			ctx := opentracing.ContextWithSpan(context.Background(), span)
+			//通过Http 调用后去用户信息接口
+		    userInfo:=getUserById(userIds[0],ctx)
+			w.Write([]byte(userInfo))
+
+		}else{
+			w.Write([]byte(result))
+		}
+		defer span.Finish()
+	})
+
+	panic(http.ListenAndServe(":10007", nil))
+}
 
 
-## 3.目录结构如下图
+//通过Http 调用后去用户信息接口
+func getUserById(userIds string,ctx context.Context) string {
+	span, _ := opentracing.StartSpanFromContext(ctx, "getUserById")
+	defer span.Finish()
+	url := "http://localhost:10008/getUserById"
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		panic(err.Error())
+	}
+	ext.SpanKindRPCClient.Set(span)
+	ext.HTTPUrl.Set(span, url)
+	ext.HTTPMethod.Set(span, "GET")
+	span.Tracer().Inject(
+		span.Context(),
+		opentracing.HTTPHeaders,
+		opentracing.HTTPHeadersCarrier(req.Header),
+	)
+	client := http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err.Error())
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	respStr := string(body)
+	span.LogFields(
 
+		log.String("userIds", userIds),
+	)
+	fmt.Println(respStr)
+	return respStr
+}
 
-![目录结构如下图](pic/structure.png)
-
-进入 lib/config/init.go 初始化 Jaeger client，Init 方法是 Jaeger client 配置方法，所有的demo程序初始化 Jaeger client 时，均需要调用此方法。
-
-console 目录下是控制台 Go 的应用程序调用示例，服务启动命令 > `go run main.go`
-
-http 目录下是Web 站点下 Go 的应用程序调用示例
-
+```
 http/client/client.go 源码是对外提供服务可以发送站内短信的方法(sendMessage) Web站点服务，监听 10007 端口，对外接口 http://127.0.0.1:10007/sendMessage?userIds=1，
 服务启动命令 `go run main.go`
 
 http/user/userinfo.go 源码是调用用户接口查询用户基本信息的站点，提供 getUserById 方法根据用户Id获取用户信息的服务,监听 10008 端口，对外接口 http://127.0.0.1:10008/getUserById，
 服务启动命令 `go run main.go`
+
+##  demo example
+[Http接入完整Demo](http/client/client.go)
+
+
+### 三、手动埋点
+```go
+package main
+
+import (
+	"context"
+	"github.com/opentracing/opentracing-go"
+	"time"
+	"fmt"
+	"jaeger/lib/config"
+)
+
+func main() {
+	// 初始化配置
+	tracer, closer := config.Init("jaeger-console-demo")
+	defer closer.Close()
+	opentracing.SetGlobalTracer(tracer)//StartspanFromContext创建新span时会用到
+	span := tracer.StartSpan("span_root")
+	ctx := opentracing.ContextWithSpan(context.Background(), span)
+	//执行任务
+	r1 := getPublicById("100", ctx)
+	fmt.Println(r1)
+	span.Finish()
+}
+
+func getPublicById(id string, ctx context.Context) (reply string){
+	//1.创建子span
+	span, _ := opentracing.StartSpanFromContext(ctx, "getPublicById")
+	defer func() {
+		//模拟调用数据库查询
+		span.SetTag("sql","select * from public where id = 100")
+		span.SetBaggageItem("test","123")
+		span.Finish()
+
+	}()
+	println(id)
+	//2.模拟处理耗时
+	time.Sleep(time.Second/2)
+	//3.返回
+	reply = "未找到信息"
+	return
+}
+
+```
+进入 lib/config/init.go 初始化 Jaeger client，Init 方法是 Jaeger client 配置方法，所有的demo程序初始化 Jaeger client 时，均需要调用此方法。
+console 目录下是控制台 Go 的应用程序调用示例，服务启动命令 > `go run main.go`
+http 目录下是Web 站点下 Go 的应用程序调用示例
+
+##  demo example
+[手动埋点完整Demo](console/main.go)
+
 
 
 

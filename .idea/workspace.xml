@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/jaeger/console/main.go" description="&#9;println(id)&#10;&#9;//2.模拟处理耗时&#10;&#9;time.Sleep(time.Second/2..." line="40" />
+    <bookmark url="file://$PROJECT_DIR$/src/jaeger/console/main.go" description="&#9;println(id)&#10;&#9;//2.模拟处理耗时&#10;&#9;time.Sleep(time.Second/2..." line="33" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0546aed-0c67-4478-b75b-4b1ca3017de4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/jaeger/gin/ginhttp/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jaeger/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/glide.lock" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/glide.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/glide.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jaeger/console/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/console/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jaeger/http/user/userinfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/http/user/userinfo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/constants.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/constants.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/propagation_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/propagation_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/reporter.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/reporter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/reporter_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/reporter_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/span.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/span.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/span_allocator.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/span_allocator_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/span_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/span_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/tracer.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/tracer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/tracer_options.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/tracer_options.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/tracer_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/jaeger/vendor/github.com/uber/jaeger-client-go/tracer_test.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -36,8 +22,8 @@
       <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jaeger/gin/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="67" selection-end-column="1" />
+            <state relative-caret-position="600">
+              <caret line="66" column="21" selection-start-line="66" selection-start-column="17" selection-end-line="66" selection-end-column="21" />
               <folding>
                 <element signature="e#14#72#0" expanded="true" />
               </folding>
@@ -48,8 +34,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/jaeger/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="200" lean-forward="true" selection-start-line="200" selection-end-line="200" />
+            <state relative-caret-position="371">
+              <caret line="383" column="64" lean-forward="true" selection-start-line="383" selection-start-column="64" selection-end-line="383" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -93,8 +79,8 @@
       <file leaf-file-name="client.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jaeger/http/client/client.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="37" column="18" lean-forward="true" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
+            <state relative-caret-position="405">
+              <caret line="27" column="36" lean-forward="true" selection-end-line="88" />
               <folding>
                 <element signature="e#14#219#0" expanded="true" />
               </folding>
@@ -105,8 +91,8 @@
       <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jaeger/console/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="32" column="69" lean-forward="true" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="69" />
+            <state relative-caret-position="165">
+              <caret line="17" column="10" lean-forward="true" selection-end-line="40" />
             </state>
           </provider>
         </entry>
@@ -114,8 +100,11 @@
       <file leaf-file-name="userinfo.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jaeger/http/user/userinfo.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-10">
-              <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="14" />
+            <state relative-caret-position="375">
+              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+              <folding>
+                <element signature="e#14#151#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -168,7 +157,6 @@
         <option value="$PROJECT_DIR$/src/jaeger/smplers/remoteServer/server.go" />
         <option value="$PROJECT_DIR$/src/jaeger/reporter/test.go" />
         <option value="$PROJECT_DIR$/src/jaeger/headers/test.go" />
-        <option value="$PROJECT_DIR$/src/jaeger/console/main.go" />
         <option value="$PROJECT_DIR$/src/jaeger/lib/config/init.go" />
         <option value="$PROJECT_DIR$/src/jaeger/baggage/server/options.go" />
         <option value="$PROJECT_DIR$/src/jaeger/baggage/remote/options.go" />
@@ -178,9 +166,10 @@
         <option value="$PROJECT_DIR$/src/jaeger/gin/server.go" />
         <option value="$PROJECT_DIR$/src/jaeger/gin/ginhttp/server.go" />
         <option value="$PROJECT_DIR$/src/jaeger/gin/q1.go" />
+        <option value="$PROJECT_DIR$/src/jaeger/gin/main.go" />
         <option value="$PROJECT_DIR$/src/jaeger/http/user/userinfo.go" />
         <option value="$PROJECT_DIR$/src/jaeger/http/client/client.go" />
-        <option value="$PROJECT_DIR$/src/jaeger/gin/main.go" />
+        <option value="$PROJECT_DIR$/src/jaeger/console/main.go" />
         <option value="$PROJECT_DIR$/src/jaeger/README.md" />
       </list>
     </option>
@@ -229,6 +218,13 @@
               <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="jaeger" type="462c0819:PsiDirectoryNode" />
+              <item name="console" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
               <item name="gin" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -252,6 +248,14 @@
               <item name="jaeger" type="462c0819:PsiDirectoryNode" />
               <item name="http" type="462c0819:PsiDirectoryNode" />
               <item name="client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jaeger-client-demo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jaeger-client-demo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="jaeger" type="462c0819:PsiDirectoryNode" />
+              <item name="http" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -620,13 +624,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/gin/server.go" />
-    <entry file="file://$PROJECT_DIR$/src/jaeger/console/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="32" column="69" lean-forward="true" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/vendor/github.com/opentracing/opentracing-go/globaltracer.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
@@ -648,13 +645,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/jaeger/http/user/userinfo.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/gin/ginhttp/server.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -672,30 +662,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/jaeger/http/client/client.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="37" column="18" lean-forward="true" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
-          <folding>
-            <element signature="e#14#219#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/gin/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="67" selection-end-column="1" />
+        <state relative-caret-position="600">
+          <caret line="66" column="21" selection-start-line="66" selection-start-column="17" selection-end-line="66" selection-end-column="21" />
           <folding>
             <element signature="e#14#72#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/jaeger/http/user/userinfo.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="e#14#151#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jaeger/http/client/client.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="36" lean-forward="true" selection-end-line="88" />
+          <folding>
+            <element signature="e#14#219#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jaeger/console/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="17" column="10" lean-forward="true" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/jaeger/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="200" lean-forward="true" selection-start-line="200" selection-end-line="200" />
+        <state relative-caret-position="371">
+          <caret line="383" column="64" lean-forward="true" selection-start-line="383" selection-start-column="64" selection-end-line="383" selection-end-column="64" />
         </state>
       </provider>
     </entry>

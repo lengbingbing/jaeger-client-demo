@@ -9,23 +9,16 @@ import (
 )
 
 func main() {
-
 	// 初始化配置
 	tracer, closer := config.Init("jaeger-console-demo")
 	defer closer.Close()
 	opentracing.SetGlobalTracer(tracer)//StartspanFromContext创建新span时会用到
-
 	span := tracer.StartSpan("span_root")
 	ctx := opentracing.ContextWithSpan(context.Background(), span)
-
 	//执行任务
 	r1 := getPublicById("100", ctx)
-
 	fmt.Println(r1)
 	span.Finish()
-
-
-
 }
 
 func getPublicById(id string, ctx context.Context) (reply string){
